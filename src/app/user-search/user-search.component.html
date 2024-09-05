@@ -1,0 +1,77 @@
+<div class="search-container">
+  <mat-card class="search-card">
+    <mat-card-header class="headers">
+      <h1>Buscar Usuario</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="onSearch()" #searchForm="ngForm">
+        <div class="member-input">
+          <mat-form-field appearance="fill" class="input-field">
+            <mat-label>Buscar usuario</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="searchQuery"
+              name="searchQuery"
+              minlength="4"
+              maxlength="20"
+              required
+              placeholder="Buscar usuario"
+            />
+          </mat-form-field>
+        </div>
+        <p class="text-info">Este campo es requerido.</p>
+        <div class="actions-buttons">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!searchForm.valid"
+          >
+            Buscar
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="clearSearch()"
+          >
+            Limpiar
+          </button>
+        </div>
+      </form>
+      <div *ngIf="errorMessage" class="error-card">
+        <mat-card-header>
+          <mat-card-title>Error</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ errorMessage }}</p>
+        </mat-card-content>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="users.length > 0" class="results-card">
+    <mat-card-header class="headers">
+      <h1>Resultados de Búsqueda</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let user of users" class="user">
+          <a [routerLink]="['/user', user.login]" class="user-link">
+            <img
+              [src]="user.avatar_url"
+              alt="{{ user.login }}"
+              width="50"
+              height="50"
+              class="user-avatar"
+            />
+            <div class="user-info">
+              <span>{{ user.login }} (ID: {{ user.id }})</span>
+            </div>
+          </a>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
